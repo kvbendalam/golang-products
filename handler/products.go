@@ -1,9 +1,9 @@
-package handlers
+package handler
 
 import (
 	"github.com/gofiber/fiber"
+	"github.com/kvbendalam/golang-products/models"
 	"github.com/kvbendalam/webservices/database"
-	"github.com/kvbendalam/webservices/models"
 )
 
 func ListProducts(c *fiber.Ctx) error {
@@ -15,7 +15,7 @@ func ListProducts(c *fiber.Ctx) error {
 func CreateProduct(c *fiber.Ctx) error {
 	product := new(models.Product)
 	if err := c.BodyParser(product); err != nil {
-		return c.Status(product.StatusInternalServerError).JSON(fiber.Map{
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}

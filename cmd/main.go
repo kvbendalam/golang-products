@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/kvbendalam/webservices/database"
+	"github.com/kvbendalam/golang-products/database"
 )
 
 func main() {

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/kvbendalam/webservices/models"
+	"github.com/kvbendalam/golang-products/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
