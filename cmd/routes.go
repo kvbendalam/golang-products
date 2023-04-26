@@ -13,6 +13,7 @@ func setupRoutes(app *fiber.App) {
 	app.Post("/product", CreateProduct)
 	app.Get("/product/:id", GetProductById)
 	app.Delete("/product/:id", DeleteProduct)
+	app.Put("/product/:id", UpdateProduct)
 }
 
 func ListProducts(c *fiber.Ctx) error {
@@ -30,6 +31,34 @@ func CreateProduct(c *fiber.Ctx) error {
 	}
 	database.DB.Db.Create(&product)
 	return c.Status(200).JSON(product)
+}
+
+func UpdateProduct(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	var product models.Product
+
+	database.DB.Db.Find(&product, "id = ?", id)
+
+	if product.ID == ' ' {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No note present", "data": nil})
+	}
+
+	var updatedProduct models.Product
+
+	err := c.BodyParser(&updatedProduct)
+
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
+	}
+
+	product.Name = updatedProduct.Name
+	product.Price = updatedProduct.Price
+
+	// Save the Changes
+	database.DB.Db.Save(&product)
+	return c.JSON(fiber.Map{"data": product})
+
 }
 
 func GetProductById(c *fiber.Ctx) error {
